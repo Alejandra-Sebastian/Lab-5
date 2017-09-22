@@ -5,7 +5,17 @@
  */
 package tests;
 
+<<<<<<< HEAD
 import java.util.Date;
+=======
+import edu.eci.pdsw.samples.entities.Consulta;
+import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
+import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
+import edu.eci.pdsw.samples.services.ServiciosPacientes;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+>>>>>>> origin/master
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -14,13 +24,30 @@ import static org.junit.Assert.*;
  *
  * @author hcadavid
  */
+/*
+Clases de Equivalencias:
+CE1: Que la consulta sea para un paciente ya registrado
+CE2: Que el id del paciente sea un id valido
+CE3: Que el tipo de id sea un id valido
+CE4: Que la consulta sea una consulta valida
+*/
 public class ServiciosPacientesTest {
     
-    public ServiciosPacientesTest() {
-    }
+    private ServiciosPacientes servicepacientes;
     
     @Before
     public void setUp() {
+        servicepacientes = ServiciosHistorialPacientesFactory.getInstance().getServiciosPaciente();
+    }
+    
+    @Test
+    public void ElPacienteNoEstaRegistrado() {
+        Consulta consulta = new Consulta(new Date(21,9,2017,10,21), "Es una consulta", 15000);
+        try {
+            servicepacientes.agregarConsultaPaciente(0, "numerico", consulta);
+        } catch (ExcepcionServiciosPacientes ex) {
+            assertEquals("Paciente 0 no esta registrado", ex.getMessage());
+        }
     }
     
     @Test
