@@ -5,17 +5,13 @@
  */
 package tests;
 
-<<<<<<< HEAD
-import java.util.Date;
-=======
 import edu.eci.pdsw.samples.entities.Consulta;
+import edu.eci.pdsw.samples.entities.Eps;
+import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
->>>>>>> origin/master
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -51,14 +47,19 @@ public class ServiciosPacientesTest {
     }
     
     @Test
-    public void RegistroDePaciente(){
-        ServiciosPacienteMok spm = new ServiciosPacienteMok();
+    public void RegistroDePaciente(){       
         int id = 1234;
         String tipoid= "TI";
         String nombre="Juanchito"; 
         Date fN = new Date(23,4,2001);
-        Eps eps = new Eps("famisanar",54321);
-        Paciente = new Paciente(id, tipoid,nombre,fN,eps);
-                
+        Eps eps = new Eps("famisanar","54321");
+        Paciente paciente = new Paciente(id, tipoid,nombre,fN,eps);
+        boolean b = false;
+        try {
+            servicepacientes.registrarNuevoPaciente(paciente);
+            b = servicepacientes.consultarPacientes().contains(paciente);
+        } catch (ExcepcionServiciosPacientes ex) {           
+        } 
+        assertTrue(b);
     }
 }
