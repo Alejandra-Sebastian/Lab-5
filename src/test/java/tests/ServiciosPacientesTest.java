@@ -5,6 +5,7 @@
  */
 package tests;
 
+import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -22,4 +23,15 @@ public class ServiciosPacientesTest {
     public void setUp() {
     }
     
+    @Test
+    public void RegistroDePaciente(){
+        ServiciosPacienteMok spm = new ServiciosPacienteMok();
+        int id = 1234;
+        String tipoid= "TI";
+        String nombre="Juanchito"; 
+        Date fN = new Date(23,4,2001);
+        Eps eps = new Eps("famisanar",54321);
+        Paciente = new Paciente(id, tipoid,nombre,fN,eps);
+                
+    }
 }
