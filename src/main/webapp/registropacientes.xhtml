@@ -5,5 +5,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head></h:head>
     <h:body>
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel for="id" value="id: " />
+                <p:inputText id="id" value="#{HistorialPacientes.id}"/>
+                
+                <p:outputLabel for="tipoid" value="tipoid: " />
+                <p:inputText id="tipoid" value="#{HistorialPacientes.tipoid}"/>
+                
+                <p:outputLabel for="nombre" value="nombre: " />
+                <p:inputText id="nombre" value="#{HistorialPacientes.nombre}"/>
+                
+                <p:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento:" />
+                <p:calendar id="fechaNacimiento" value="#{HistorialPacientes.fechaNacimiento}" showOn="button" />
+                
+                <p:outputLabel value="Eps:" for="dd" />
+                <p:autoComplete id="dd" dropdown="true" value="#{HistorialPacientes.eps}" completeMethod="#{HistorialPacientes.listaEps()}" />
+            </h:panelGrid>
+            <p:commandButton value="Registrarse" type="button" onclick="PF('dlg2').show();" actionListener="#{HistorialPacientes.agregarPaciente}"/>
+            <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+                <h:outputText value="#{HistorialPacientes.msg}" />
+            </p:dialog>
+        </h:form>
     </h:body>
 </html>
