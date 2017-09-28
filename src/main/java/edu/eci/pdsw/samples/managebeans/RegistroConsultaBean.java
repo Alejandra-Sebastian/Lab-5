@@ -6,6 +6,7 @@
 package edu.eci.pdsw.samples.managebeans;
 
 
+import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
@@ -40,10 +41,17 @@ public class RegistroConsultaBean implements Serializable {
     private Eps eps;
     private String nombreEps;
     private Paciente paciente;
+    private Consulta consulta;
     private List<Eps> listaEps;
     private List<String> nombresEps;
     private List<Paciente> pacientes;
+    private List<Consulta> consultas;
     private Paciente pacienteSeleccionado;
+    private Date fechaYHora;
+    private String resumen;
+    private long costo;
+    private String consultaEps;
+    private List<Integer> IDConsultas;
 
     
 
@@ -79,7 +87,16 @@ public class RegistroConsultaBean implements Serializable {
         } catch (ExcepcionServiciosPacientes ex) {
             Logger.getLogger(RegistroConsultaBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
+    } 
+    
+    public void agregarConsulta() {
+        consulta = new Consulta(fechaYHora, resumen, costo);
+        try {
+            servicepacientes.agregarConsultaPaciente(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipoId(), consulta);
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(RegistroConsultaBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public int getId() {
         return id;
@@ -165,5 +182,50 @@ public class RegistroConsultaBean implements Serializable {
     
     public void setPacienteSeleccionado(Paciente pa){
         pacienteSeleccionado = pa;
+    }
+    
+    public Date getFechaYHora() {
+        return fechaYHora;
+    }
+    
+    public void setFechaYHora(Date fechaYHora) {
+        this.fechaYHora = fechaYHora;
+    }
+    
+    public String getResumen() {
+        return resumen;
+    }
+    
+    public void setResumen(String resumen) {
+        this.resumen = resumen;
+    }
+    
+    public long getCosto() {
+        return costo;
+    }
+    
+    public void setCosto(long costo) {
+        this.costo = costo;
+    }
+    
+    public List<Consulta> getConsultas() {
+        Object[] c = pacienteSeleccionado.getConsultas().toArray();
+        consultas = new ArrayList<Consulta>();
+        for(Object o : c) {
+            consultas.add((Consulta) o);
+        }
+        return consultas;
+    }
+    
+    public void setConsultas(List<Consulta> consultas) {
+        this.consultas = consultas;
+    }
+    
+    public String getConsultaEps() {
+        return consultaEps;
+    }
+    
+    public void setConsultaEps(String consultaEps) {
+        this.consultaEps = consultaEps;
     }
 }
