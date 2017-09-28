@@ -23,7 +23,6 @@ import org.primefaces.context.RequestContext;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -39,13 +38,33 @@ public class RegistroConsultaBean implements Serializable {
     private String nombre;
     private Date fechaNacimiento;
     private Eps eps;
+    private String nombreEps;
     private Paciente paciente;
-    private  List<Eps> results = new ArrayList<Eps>();
-    private String msg;
+    private HashMap<String, Eps> listaEps;
+    private List<String> nombresEps;
+    private List<Paciente> pacientes;
 
     
 
-    public RegistroConsultaBean() {
+    public RegistroConsultaBean(){
+        listaEps = new HashMap<String, Eps>();
+        listaEps.put("Suramericana", new Eps("Suramericana","800256161-9"));
+        listaEps.put("Sanitas", new Eps("Sanitas","800251440-6"));
+        listaEps.put("Aliansalud" ,new Eps("Aliansalud","830113831-0"));
+        listaEps.put("Nueva EPS", new Eps("Nueva EPS","900156264-2"));
+        listaEps.put("Compensar", new Eps("Compensar","860066942-7"));
+        listaEps.put("Salud Total", new Eps("Salud Total","800130907-4"));
+        listaEps.put("Famisanar", new Eps("Famisanar","830003564-7"));
+        listaEps.put("Saludvida", new Eps("Saludvida","830074184-5"));
+        listaEps.put("Coomeva", new Eps("Coomeva","805000427-1"));
+        listaEps.put("Servicio Occidental de Salud", new Eps("Servicio Occidental de Salud","805001157-2"));
+        listaEps.put("Comfenalco Valle", new Eps("Comfenalco Valle","890303093-5"));
+        listaEps.put("Cruz Blanca", new Eps("Cruz Blanca","830009783-0"));
+        listaEps.put("Cafesalud", new Eps("Cafesalud","800140949-6"));
+        nombresEps = new ArrayList<String>();
+        for(Map.Entry<String, Eps> entry : listaEps.entrySet()) {
+            nombresEps.add(entry.getKey());
+        }
         
     }
 
@@ -55,41 +74,16 @@ public class RegistroConsultaBean implements Serializable {
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
     
-    public List<String> listaEps() {
-        List<String> nombres = new ArrayList<String>();
-        results.add(new Eps("Suramericana","800256161-9"));
-        results.add(new Eps("Sanitas","800251440-6"));
-        results.add(new Eps("Aliansalud","830113831-0"));
-        results.add(new Eps("Nueva EPS","900156264-2"));
-        results.add(new Eps("Compensar","860066942-7"));
-        results.add(new Eps("Salud Total","800130907-4"));
-        results.add(new Eps("Famisanar","830003564-7"));
-        results.add(new Eps("Saludvida","830074184-5"));
-        results.add(new Eps("Coomeva","805000427-1"));
-        results.add(new Eps("Servicio Occidental de Salud","805001157-2"));
-        results.add(new Eps("Comfenalco Valle","890303093-5"));
-        results.add(new Eps("Cruz Blanca","830009783-0"));
-        results.add(new Eps("Cafesalud","800140949-6"));
+    public void agregarPaciente() {
         
-        for(Eps e: results) {
-            nombres.add(e.getNombre());
-        }
-        return nombres;
-    }
-    
-    public void agregarPaciente(ActionEvent actionEvent) {
+        eps = listaEps.get(nombreEps);
         paciente = new Paciente(id, tipoid, nombre, fechaNacimiento, eps);
         try {
             servicepacientes.registrarNuevoPaciente(paciente);
-            msg = "Se registro correctamente";
         } catch (ExcepcionServiciosPacientes ex) {
-            msg = "No se registro correctamente";
+            Logger.getLogger(RegistroConsultaBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(msg);
-    }
-    
-   
-    
+    }   
 
     public int getId() {
         return id;
@@ -131,12 +125,41 @@ public class RegistroConsultaBean implements Serializable {
         this.eps = eps;
     }
     
-    public String getMsg() {
-        return msg;
+    public String getNombreEps() {
+        return nombreEps;
     }
     
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setNombreEps(String nombreEps) {
+        this.nombreEps = nombreEps;
+    }
+    
+    public List<String> getNombresEps() {
+        return nombresEps;
+    }
+    
+    public void setNombresEps(List<String> nombresEps) {
+        this.nombresEps = nombresEps;
+    }
+    
+    public HashMap<String, Eps> getListaEps() {
+        return listaEps;
+    }
+    
+    public void setListaEps(HashMap<String, Eps> listaEps) {
+        this.listaEps = listaEps;
+    }
+    
+    public List<Paciente> getPacientes() {
+        try {
+            pacientes = servicepacientes.consultarPacientes();
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(RegistroConsultaBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pacientes;
+    }
+    
+    public void setPacientes(List<Paciente> pacientes) {
+        this.pacientes = pacientes;
     }
 
 }
