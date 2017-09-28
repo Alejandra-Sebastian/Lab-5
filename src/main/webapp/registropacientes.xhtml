@@ -28,7 +28,7 @@
         </h:form>
         <p:commandButton id="botonRegistrarse" value="Registrarse" actionListener="#{HistorialPacientes.agregarPaciente()}" update="form1 form2"/>
         <h:form id="form2">
-            <p:dataTable var="pacientes" value="#{HistorialPacientes.pacientes}">
+            <p:dataTable var="pacientes" value="#{HistorialPacientes.pacientes}" selectionMode="single" selection="#{HistorialPacientes.pacienteSeleccionado}" rowKey="#{pacientes.id}">
                 <p:column headerText="ID">
                     <h:outputText value="#{pacientes.id}"/>
                 </p:column>
@@ -47,6 +47,7 @@
                     <h:outputText value="#{pacientes.eps.nombre}"/>
                 </p:column>
             </p:dataTable>
+            <p:commandButton id="registrarCita" value="Registrar Cita" action="registroconsultas"/>
         </h:form>
     </h:body>
 </html>

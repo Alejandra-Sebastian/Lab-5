@@ -43,6 +43,7 @@ public class RegistroConsultaBean implements Serializable {
     private HashMap<String, Eps> listaEps;
     private List<String> nombresEps;
     private List<Paciente> pacientes;
+    private Paciente pacienteSeleccionado;
 
     
 
@@ -161,5 +162,12 @@ public class RegistroConsultaBean implements Serializable {
     public void setPacientes(List<Paciente> pacientes) {
         this.pacientes = pacientes;
     }
-
+    
+    public Paciente getPacienteSeleccionado(){
+        return pacienteSeleccionado;
+    }
+    
+    public void setPacienteSeleccionado(Paciente pa){
+        pacienteSeleccionado = pa;
+    }
 }
