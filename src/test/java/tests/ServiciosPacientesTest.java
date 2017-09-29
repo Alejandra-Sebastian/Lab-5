@@ -12,6 +12,9 @@ import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -61,5 +64,56 @@ public class ServiciosPacientesTest {
         } catch (ExcepcionServiciosPacientes ex) {           
         } 
         assertTrue(b);
+    }
+    
+    @Test
+    public void consultarPacienteTest() {
+        Paciente paciente = new Paciente(1, "CC", "Luis", new Date(1998, 01, 07), new Eps("Sanitas", "13215648-45"));
+        try {
+            servicepacientes.registrarNuevoPaciente(paciente);
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(ServiciosPacientesTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Paciente p = null;
+        try {
+            p = servicepacientes.consultarPaciente(1, "CC");
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(ServiciosPacientesTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(paciente, p);        
+    }
+    
+    @Test
+    public void obtenerConsultasEpsTest() {
+        Paciente paciente = new Paciente(1, "CC", "Luis", new Date(1998, 01, 07), new Eps("Sanitas", "13215648-45"));
+        List<Consulta> consultas = null;
+        try {
+            servicepacientes.registrarNuevoPaciente(paciente);
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(ServiciosPacientesTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Consulta c = new Consulta(new Date(2017, 8, 29, 12, 00), "Dolor de Cabeza", 15000);
+        try {
+            servicepacientes.agregarConsultaPaciente(1, "CC", c);
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(ServiciosPacientesTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            consultas = servicepacientes.obtenerConsultasEps("Sanitas");
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(ServiciosPacientesTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(2,consultas.size());        
+    }
+    
+    @Test
+    public void obtenerEpsRegistradas() {
+        List<Eps> listaEps = null;
+        try {
+            listaEps = servicepacientes.obtenerEPSsRegistradas();
+        } catch (ExcepcionServiciosPacientes ex) {
+            Logger.getLogger(ServiciosPacientesTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(6, listaEps.size());
     }
 }
